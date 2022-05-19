@@ -1,0 +1,120 @@
+substitutions:
+  name: virtual-can-bms
+  external_components_source: github://syssi/esphome-virtual-can-bms@main
+
+esphome:
+  name: ${name}
+
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: esp-idf
+    version: latest
+
+external_components:
+  - source: ${external_components_source}
+    refresh: 0s
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+ota:
+logger:
+  level: VERY_VERBOSE
+  logs:
+    scheduler: DEBUG
+    component: DEBUG
+    sensor: DEBUG
+
+api:
+
+# mqtt:
+#   broker: !secret mqtt_host
+#   username: !secret mqtt_username
+#   password: !secret mqtt_password
+#   id: mqtt_client
+
+canbus:
+  - platform: esp32_can
+    id: canbus0
+    tx_pin: GPIO5
+    rx_pin: GPIO4
+    can_id: 4
+    bit_rate: 500kbps
+
+virtual_can_bms:
+  canbus_id: canbus0
+  update_interval: 1s
+
+  charge_voltage_id: charge_voltage_sensor
+  charge_current_limit_id: charge_current_limit_sensor
+  discharge_current_limit_id: discharge_current_limit_sensor
+  discharge_voltage_limit_id: discharge_voltage_limit_sensor
+  state_of_charge_id: state_of_charge_sensor
+  state_of_health_id: state_of_health_sensor
+  hires_state_of_charge_id: hires_state_of_charge_sensor
+  battery_voltage_id: battery_voltage_sensor
+  battery_current_id: battery_current_sensor
+  battery_temperature_id: battery_temperature_sensor
+
+sensor:
+  - platform: template
+    id: charge_voltage_sensor
+    name: "Charge Voltage"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: charge_current_limit_sensor
+    name: "Charge Current Limit"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: discharge_current_limit_sensor
+    name: "Discharge Current Limit"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: discharge_voltage_limit_sensor
+    name: "Discharge Voltage Limit"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: state_of_charge_sensor
+    name: "State Of Charge"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: state_of_health_sensor
+    name: "State Of Health"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: hires_state_of_charge_sensor
+    name: "HiRes State Of Charge"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: battery_voltage_sensor
+    name: "Battery Voltage"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: battery_current_sensor
+    name: "Battery Current"
+    lambda: return 42.0;
+    update_interval: 10s
+
+  - platform: template
+    id: battery_temperature_sensor
+    name: "Battery Temperature"
+    lambda: return 42.0;
+    update_interval: 10s
