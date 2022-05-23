@@ -21,6 +21,7 @@ void VirtualCanBms::update() {
   this->send_frame_0x0355_();
   this->send_frame_0x0356_();
   this->send_frame_0x035a_();
+  this->send_frame_0x035e_();
 }
 
 // Required
@@ -129,6 +130,18 @@ void VirtualCanBms::send_frame_0x035a_() {
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
   this->canbus->send_data(0x035A, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+}
+
+void VirtualCanBms::send_frame_0x035e_() {
+  static SmaCanMessage0x035E message;
+
+  if(this->battery_name_.empty())
+    return;
+
+  this->battery_name_.copy(message.BatteryName, 8);
+
+  auto *ptr = reinterpret_cast<uint8_t *>(&message);
+  this->canbus->send_data(0x035E, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
 }
 
 }  // namespace virtual_can_bms
