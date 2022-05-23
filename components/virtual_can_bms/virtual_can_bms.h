@@ -32,7 +32,7 @@ struct SmaCanMessage0x035A {
 };
 
 struct SmaCanMessage0x035E {
-  char Model[8];
+  char BatteryName[8];
 };
 
 struct SmaCanMessage0x035F {
@@ -88,6 +88,8 @@ class VirtualCanBms : public PollingComponent {
     battery_temperature_sensor_ = battery_temperature_sensor;
   }
 
+  void set_battery_name(const std::string &battery_name) { battery_name_ = battery_name; }
+
   void dump_config() override;
 
   void update() override;
@@ -108,10 +110,13 @@ class VirtualCanBms : public PollingComponent {
   sensor::Sensor *battery_current_sensor_;
   sensor::Sensor *battery_temperature_sensor_;
 
+  std::string battery_name_{""};
+
   void send_frame_0x0351_();
   void send_frame_0x0355_();
   void send_frame_0x0356_();
   void send_frame_0x035a_();
+  void send_frame_0x035e_();
   void publish_state_(sensor::Sensor *sensor, float value);
 };
 
