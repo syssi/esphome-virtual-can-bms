@@ -51,7 +51,7 @@ struct SmaCanMessage0x0373 {
   uint16_t MaxCellvoltage;  // v * 1000.0f
   uint16_t MinTemperature;  // v * 273.15f
   uint16_t MaxTemperature;  // v * 273.15f
-}
+};
 
 class VirtualCanBms : public PollingComponent {
  public:
