@@ -1,0 +1,38 @@
+substitutions:
+  name: can-rx
+
+esphome:
+  name: ${name}
+
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: esp-idf
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+ota:
+logger:
+api:
+
+canbus:
+  - platform: esp32_can
+    id: canbus0
+    tx_pin: GPIO5
+    rx_pin: GPIO4
+    # Used for outgoing traffic
+    can_id: 4
+    bit_rate: 500kbps
+    on_frame:
+      - can_id: 0
+        can_id_mask: 0
+        use_extended_id: true
+        then:
+          - lambda: |-
+              // DGN, Source Address (SA), Priority, Data (8 bytes)
+              int dgn = (can_id >> 8) & 0x1ffff;
+              int pri = (can_id >> 26) & 0b111;
+              int sa = can_id & 0xff;
+              ESP_LOGI("lambda", "%05X,%02X,%1X,%02X%02X%02X%02X%02X%02X%02X%02X", dgn, sa, pri, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7]);
