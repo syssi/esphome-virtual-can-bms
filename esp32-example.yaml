@@ -19,6 +19,7 @@ wifi:
   password: !secret wifi_password
 
 ota:
+
 logger:
   level: VERY_VERBOSE
   logs:
