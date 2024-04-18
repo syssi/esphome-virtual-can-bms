@@ -21,6 +21,9 @@ void VirtualCanBms::update() {
   this->send_frame_0x0355_();
   this->send_frame_0x0356_();
   this->send_frame_0x035a_();
+  this->send_frame_0x035b_();
+  this->send_frame_0x035e_();
+  this->send_frame_0x035f_();
 }
 
 // Required
@@ -51,7 +54,9 @@ void VirtualCanBms::send_frame_0x0351_() {
   message.DischargeVoltageLimit = (discharge_voltage_limit * 10.0f);  // 41V * 10 ... 48V * 10 = 410...480
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
-  this->canbus->send_data(0x0351, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  // this->canbus->send_data(0x0351, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  std::vector<uint8_t> data = {0x03, 0x51, 0x27, 0x02, 0xE7, 0x03, 0xBC, 0x02, 0x9F, 0x01};
+  this->canbus->send_data(0x0351, false, false, data);
 }
 
 // Required
@@ -81,7 +86,9 @@ void VirtualCanBms::send_frame_0x0355_() {
   message.StateOfChargeHighRes = (hires_state_of_charge * 100.0f);  // 0.00%...100.00%
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
-  this->canbus->send_data(0x0355, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  // this->canbus->send_data(0x0355, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  std::vector<uint8_t> data = {0x03, 0x55, 0x39, 0x00, 0x63, 0x00, 0xCC, 0x26, 0x00, 0x00};
+  this->canbus->send_data(0x0355, false, false, data);
 }
 
 // Optional
@@ -117,7 +124,9 @@ void VirtualCanBms::send_frame_0x0356_() {
   message.BatteryTemperature = (battery_temperature * 10.0f);  // °C
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
-  this->canbus->send_data(0x0356, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  // this->canbus->send_data(0x0356, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  std::vector<uint8_t> data = {0x03, 0x56, 0x5D, 0x14, 0x00, 0x00, 0xCF, 0x06, 0x00, 0x00};
+  this->canbus->send_data(0x0356, false, false, data);
 }
 
 // Required
@@ -128,7 +137,24 @@ void VirtualCanBms::send_frame_0x035a_() {
   message.WarningBitmask = 0x00000000;
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
-  this->canbus->send_data(0x035A, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  // this->canbus->send_data(0x035A, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
+  std::vector<uint8_t> data = {0x03, 0x5A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  this->canbus->send_data(0x035A, false, false, data);
+}
+
+void VirtualCanBms::send_frame_0x035b_() {
+  std::vector<uint8_t> data = {0x03, 0x5B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  this->canbus->send_data(0x035B, false, false, data);
+}
+
+void VirtualCanBms::send_frame_0x035e_() {
+  std::vector<uint8_t> data = {0x03, 0x5E, 0x53, 0x4D, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00};
+  this->canbus->send_data(0x035E, false, false, data);
+}
+
+void VirtualCanBms::send_frame_0x035f_() {
+  std::vector<uint8_t> data = {0x03, 0x5F, 0x00, 0x00, 0x00, 0x00, 0xC8, 0x00, 0x00, 0x00};
+  this->canbus->send_data(0x035F, false, false, data);
 }
 
 }  // namespace virtual_can_bms
