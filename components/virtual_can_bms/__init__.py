@@ -1,3 +1,5 @@
+from string import ascii_letters, digits
+
 import esphome.codegen as cg
 from esphome.components import canbus, sensor
 from esphome.components.canbus import CONF_CANBUS_ID, CanbusComponent
@@ -18,6 +20,7 @@ CONF_HIRES_STATE_OF_CHARGE_ID = "hires_state_of_charge_id"
 CONF_BATTERY_VOLTAGE_ID = "battery_voltage_id"
 CONF_BATTERY_CURRENT_ID = "battery_current_id"
 CONF_BATTERY_TEMPERATURE_ID = "battery_temperature_id"
+CONF_BATTERY_NAME = "battery_name"
 
 SENSORS = [
     CONF_CHARGE_VOLTAGE_ID,
@@ -39,6 +42,21 @@ VirtualCanBms = virtual_can_bms_ns.class_(
     canbus.CanbusComponent,
 )
 
+
+def BatteryName(value):
+    valid_chars = f"{ascii_letters + digits}."
+    if not isinstance(value, str) or len(value) > 8:
+        raise cv.Invalid("Must be a string less than 8 characters")
+
+    for char in value:
+        if char not in valid_chars:
+            raise cv.Invalid(
+                f"Must only consist of upper/lowercase characters, numbers and the period '.'. The character '{char}' cannot be used."
+            )
+
+    return value
+
+
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
@@ -54,6 +72,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_BATTERY_VOLTAGE_ID): cv.use_id(sensor.Sensor),
             cv.Optional(CONF_BATTERY_CURRENT_ID): cv.use_id(sensor.Sensor),
             cv.Optional(CONF_BATTERY_TEMPERATURE_ID): cv.use_id(sensor.Sensor),
+            cv.Optional(CONF_BATTERY_NAME, default=""): BatteryName,
         }
     ).extend(cv.polling_component_schema("1s")),
 )
@@ -65,6 +84,9 @@ async def to_code(config):
 
     canbus_component = await cg.get_variable(config[CONF_CANBUS_ID])
     cg.add(var.set_canbus(canbus_component))
+
+    if CONF_BATTERY_NAME in config:
+        cg.add(var.set_battery_name(config[CONF_BATTERY_NAME]))
 
     for key in SENSORS:
         if key in config:
