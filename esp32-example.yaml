@@ -23,11 +23,11 @@ ota:
   platform: esphome
 
 logger:
-  level: VERY_VERBOSE
-  logs:
-    scheduler: DEBUG
-    component: DEBUG
-    sensor: DEBUG
+#  level: VERY_VERBOSE
+#  logs:
+#    scheduler: DEBUG
+#    component: DEBUG
+#    sensor: DEBUG
 
 api:
 
@@ -49,6 +49,7 @@ virtual_can_bms:
   canbus_id: canbus0
   update_interval: 1s
 
+  battery_name: "Battery1"
   charge_voltage_id: charge_voltage_sensor
   charge_current_limit_id: charge_current_limit_sensor
   discharge_current_limit_id: discharge_current_limit_sensor
