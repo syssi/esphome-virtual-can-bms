@@ -40,6 +40,7 @@ VirtualCanBms = virtual_can_bms_ns.class_(
 )
 
 CONFIG_SCHEMA = cv.All(
+    cv.require_esphome_version(2025, 11, 0),
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(VirtualCanBms),
