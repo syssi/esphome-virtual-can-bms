@@ -94,7 +94,7 @@ class VirtualCanBms : public PollingComponent {
 
   float get_setup_priority() const override { return setup_priority::DATA; }
 
-  canbus::Canbus *canbus;
+  canbus::Canbus *canbus{nullptr};
 
  protected:
   sensor::Sensor *charge_voltage_sensor_{nullptr};
