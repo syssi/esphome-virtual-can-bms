@@ -97,16 +97,16 @@ class VirtualCanBms : public PollingComponent {
   canbus::Canbus *canbus;
 
  protected:
-  sensor::Sensor *charge_voltage_sensor_;
-  sensor::Sensor *charge_current_limit_sensor_;
-  sensor::Sensor *discharge_current_limit_sensor_;
-  sensor::Sensor *discharge_voltage_limit_sensor_;
-  sensor::Sensor *state_of_charge_sensor_;
-  sensor::Sensor *state_of_health_sensor_;
-  sensor::Sensor *hires_state_of_charge_sensor_;
-  sensor::Sensor *battery_voltage_sensor_;
-  sensor::Sensor *battery_current_sensor_;
-  sensor::Sensor *battery_temperature_sensor_;
+  sensor::Sensor *charge_voltage_sensor_{nullptr};
+  sensor::Sensor *charge_current_limit_sensor_{nullptr};
+  sensor::Sensor *discharge_current_limit_sensor_{nullptr};
+  sensor::Sensor *discharge_voltage_limit_sensor_{nullptr};
+  sensor::Sensor *state_of_charge_sensor_{nullptr};
+  sensor::Sensor *state_of_health_sensor_{nullptr};
+  sensor::Sensor *hires_state_of_charge_sensor_{nullptr};
+  sensor::Sensor *battery_voltage_sensor_{nullptr};
+  sensor::Sensor *battery_current_sensor_{nullptr};
+  sensor::Sensor *battery_temperature_sensor_{nullptr};
 
   void send_frame_0x0351_();
   void send_frame_0x0355_();
