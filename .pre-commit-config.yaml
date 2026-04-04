@@ -38,6 +38,15 @@ repos:
     rev: v1.35.1
     hooks:
       - id: yamllint
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: python
+        types: [python]
+        pass_filenames: false
+        additional_dependencies: [pytest, esphome]
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v13.0.1
     hooks:
