@@ -2,8 +2,7 @@
 #include "esphome/core/log.h"
 #include "esphome/core/hal.h"
 
-namespace esphome {
-namespace virtual_can_bms {
+namespace esphome::virtual_can_bms {
 
 static const char *const TAG = "virtual_can_bms";
 
@@ -131,5 +130,4 @@ void VirtualCanBms::send_frame_0x035a_() {
   this->canbus->send_data(0x035A, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
 }
 
-}  // namespace virtual_can_bms
-}  // namespace esphome
+}  // namespace esphome::virtual_can_bms
