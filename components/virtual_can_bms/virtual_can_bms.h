@@ -4,8 +4,7 @@
 #include "esphome/components/canbus/canbus.h"
 #include "esphome/components/sensor/sensor.h"
 
-namespace esphome {
-namespace virtual_can_bms {
+namespace esphome::virtual_can_bms {
 
 struct SmaCanMessage0x0351 {
   uint16_t ChargeVoltage;          // U16
@@ -115,5 +114,4 @@ class VirtualCanBms : public PollingComponent {
   void publish_state_(sensor::Sensor *sensor, float value);
 };
 
-}  // namespace virtual_can_bms
-}  // namespace esphome
+}  // namespace esphome::virtual_can_bms
