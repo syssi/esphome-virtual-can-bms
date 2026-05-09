@@ -76,9 +76,9 @@ void VirtualCanBms::send_frame_0x0355_() {
     return;
   }
 
-  message.StateOfCharge = state_of_charge;    // 0%...100%
-  message.StateOfHealth = state_of_health;    // 0%...100%
-  message.StateOfChargeHighRes =              // 0.00%...100.00%, 0xFFFF = invalid
+  message.StateOfCharge = state_of_charge;  // 0%...100%
+  message.StateOfHealth = state_of_health;  // 0%...100%
+  message.StateOfChargeHighRes =            // 0.00%...100.00%, 0xFFFF = invalid
       (this->hires_state_of_charge_sensor_ != nullptr) ? static_cast<uint16_t>(hires_state_of_charge * 100.0f) : 0xFFFF;
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
