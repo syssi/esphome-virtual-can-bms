@@ -1,0 +1,5 @@
+sensor:
+  - platform: template
+    id: dummy_sensor
+    update_interval: 60s
+    lambda: "return 0.0f;"

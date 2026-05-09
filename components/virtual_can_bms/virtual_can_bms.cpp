@@ -63,21 +63,23 @@ void VirtualCanBms::send_frame_0x0355_() {
     return;
   }
 
-  float hires_state_of_charge = 65535;  // Invalid unsigned. Unused fields of used frames must set to "invalid"
-  if (this->hires_state_of_charge_sensor_ != nullptr) {
-    hires_state_of_charge = this->hires_state_of_charge_sensor_->get_state();
-  }
-
   float state_of_charge = this->state_of_charge_sensor_->get_state();
   float state_of_health = this->state_of_health_sensor_->get_state();
-  if (std::isnan(state_of_charge) || std::isnan(state_of_health) || std::isnan(hires_state_of_charge)) {
+
+  float hires_state_of_charge = NAN;
+  if (this->hires_state_of_charge_sensor_ != nullptr)
+    hires_state_of_charge = this->hires_state_of_charge_sensor_->get_state();
+
+  if (std::isnan(state_of_charge) || std::isnan(state_of_health) ||
+      (this->hires_state_of_charge_sensor_ != nullptr && std::isnan(hires_state_of_charge))) {
     ESP_LOGW(TAG, "One of the required sensor states is NaN. Unable to populate 0x0355 frame. Skipped");
     return;
   }
 
-  message.StateOfCharge = state_of_charge;                          // 0%...100%
-  message.StateOfHealth = state_of_health;                          // 0%...100%
-  message.StateOfChargeHighRes = (hires_state_of_charge * 100.0f);  // 0.00%...100.00%
+  message.StateOfCharge = state_of_charge;  // 0%...100%
+  message.StateOfHealth = state_of_health;  // 0%...100%
+  message.StateOfChargeHighRes =            // 0.00%...100.00%, 0xFFFF = invalid
+      (this->hires_state_of_charge_sensor_ != nullptr) ? static_cast<uint16_t>(hires_state_of_charge * 100.0f) : 0xFFFF;
 
   auto *ptr = reinterpret_cast<uint8_t *>(&message);
   this->canbus->send_data(0x0355, false, false, std::vector<uint8_t>(ptr, ptr + sizeof message));
