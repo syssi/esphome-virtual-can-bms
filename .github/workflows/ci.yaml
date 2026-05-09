@@ -54,6 +54,8 @@ jobs:
         run: |
           cd esphome
           cp -r ../components/* esphome/components/
+          mkdir -p tests/components/virtual_can_bms
+          cp -r ../tests/components/virtual_can_bms/* tests/components/virtual_can_bms/
           git config user.name "ci"
           git config user.email "ci@github.com"
           git add .
