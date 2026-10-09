@@ -6,6 +6,7 @@ from esphome.const import CONF_ID
 
 AUTO_LOAD = ["canbus", "sensor"]
 CODEOWNERS = ["@syssi"]
+DOMAIN = "virtual_can_bms"
 MULTI_CONF = True
 
 CONF_CHARGE_VOLTAGE_ID = "charge_voltage_id"
