@@ -4,6 +4,9 @@ substitutions:
 
 esphome:
   name: ${name}
+  project:
+    name: "syssi.esphome-virtual-can-bms"
+    version: 0.3.0
 
 esp32:
   board: wemos_d1_mini32

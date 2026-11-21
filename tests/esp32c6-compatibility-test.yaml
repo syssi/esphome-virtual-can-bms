@@ -6,6 +6,9 @@ substitutions:
 esphome:
   name: ${name}
   comment: ${device_description}
+  project:
+    name: "syssi.esphome-virtual-can-bms"
+    version: 0.3.0
 
 esp32:
   board: esp32-c6-devkitc-1
